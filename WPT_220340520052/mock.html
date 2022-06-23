@@ -1,0 +1,80 @@
+<html>
+
+<head>
+	<title>Book Details</title>
+</head>
+
+<body>
+
+	<label for="bookid">Book Id:</label>
+	<input type="text" id="bookid">
+	<span id="msg">Message</span><br><br>
+	<label for="bookname">Book Name:</label>
+	<input type="text" id="bookname"><br><br>
+	<label for="price">Price:</label>
+	<input type="text" id="price"><br><br>
+	<button id="addbook"> Add A Book</button>
+	<hr />
+
+	<p id="showall">show all books here</p>
+
+
+</body>
+
+<script src="jquery-3.5.1.min.js"></script>
+<script>//our scrip will come here 
+
+	$("#bookid").blur(() => {
+		let input = $('#bookid').val();
+		console.log("input is" + input);
+
+		let dbparam = {
+			data: { x: input },
+			url: 'http://localhost:8081/checkBookId',
+			type: 'get',
+			dataType: 'json',
+			sucess: (serverResponse) => {
+				console.log("sucess serverRespons");
+				console.log(serverResponse);
+			},
+			error: (serverResponse) => {
+				console.log("error in serverRespons" + serverResponse);
+
+
+			});
+	$('#addbook').click(() => {
+		console.log(input);
+
+		let input = { a: $('#bookid').val(), b: $('#bookname').val(), c: $('#price').val() };
+
+		let dbparam = {
+			data: input,
+			url: 'http://localhost:8081/checkBookId',
+			type: 'get',
+			datatype: 'json',
+			sucess: (serverResponse) => {
+				console.log("success serverResponse");
+				console.log(serverResponse);
+
+				if (serverResponse.status == true) {
+					$('#msg').text("Book addes sucessfully");
+				}
+				else {
+					$('#msg').text("book not add");
+				}
+
+			},
+			error: {
+				error: (serverResponse) => {
+					console.log("error in serverResponse" + serverResponse);
+
+				}
+			}
+		}
+	});
+	$().ajax(dbparam)
+
+
+</script>
+
+</html>
